@@ -20,8 +20,11 @@ function Item({ item }) {
   };
 
   const handleChange = (e) => {
-    if (money < item.amount * e.target.value) {
-      setValue(0);
+    if (
+      money + item.amount * item.price <
+      item.price * Number(e.target.value)
+    ) {
+      setValue(Number(value));
     } else {
       setValue(Number(e.target.value));
       if (value > 0) {
