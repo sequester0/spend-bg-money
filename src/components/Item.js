@@ -8,6 +8,7 @@ import { changeAmount } from "../redux/product/productSlice";
 
 function Item({ item }) {
   const dispatch = useDispatch();
+  const money = useSelector((state) => state.products.money);
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -19,18 +20,26 @@ function Item({ item }) {
   };
 
   const handleChange = (e) => {
-    setValue(e.target.value);
-    if (value > 0) {
-      dispatch(changeAmount({ id: item.id, amount: e.target.value }));
-    }
-    if (value <= 0) {
+    if (money < item.amount * e.target.value) {
       setValue(0);
+    } else {
+      setValue(Number(e.target.value));
+      if (value > 0) {
+        dispatch(changeAmount({ id: item.id, amount: e.target.value }));
+      }
+      if (value <= 0) {
+        setValue(0);
+      }
     }
   };
 
   const handleBuy = () => {
-    setValue(value + 1);
-    dispatch(changeAmount({ id: item.id, amount: value + 1 }));
+    if (money < item.price) {
+      setValue(Number(value));
+    } else {
+      setValue(Number(value + 1));
+      dispatch(changeAmount({ id: item.id, amount: value + 1 }));
+    }
   };
 
   const handleSell = () => {
