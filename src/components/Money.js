@@ -6,6 +6,7 @@ import CountUp from "react-countup";
 
 function Money() {
   const money = useSelector((state) => state.products.money);
+  const lastItem = useSelector((state) => state.products.lastItem);
 
   return (
     <Container
@@ -28,7 +29,11 @@ function Money() {
       >
         <Typography variant="h5" color="white" fontWeight="bold">
           <CountUp
-            start={100000000000}
+            start={
+              lastItem.type === "buy"
+                ? money + lastItem.price
+                : money - lastItem.price
+            }
             end={money}
             duration={0.9}
             separator=","

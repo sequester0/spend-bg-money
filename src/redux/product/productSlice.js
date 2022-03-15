@@ -12,6 +12,10 @@ export const productsSlice = createSlice({
       window.localStorage.getItem("money") === null
         ? 100000000000
         : parseInt(window.localStorage.getItem("money")),
+    lastItem:
+      window.localStorage.getItem("lastItem") === null
+        ? { price: 0, type: "" }
+        : JSON.parse(window.localStorage.getItem("lastItem")),
   },
   reducers: {
     changeAmount: (state, action) => {
@@ -28,8 +32,12 @@ export const productsSlice = createSlice({
       item.amount = amount;
       window.localStorage.setItem("products", JSON.stringify(state.items));
     },
+    setLastItem: (state, action) => {
+      state.lastItem = action.payload;
+      window.localStorage.setItem("lastItem", JSON.stringify(action.payload));
+    },
   },
 });
 
-export const { changeAmount } = productsSlice.actions;
+export const { changeAmount, setLastItem } = productsSlice.actions;
 export default productsSlice.reducer;

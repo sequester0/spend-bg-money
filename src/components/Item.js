@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
-import { changeAmount } from "../redux/product/productSlice";
+import { changeAmount, setLastItem } from "../redux/product/productSlice";
 
 function Item({ item }) {
   const dispatch = useDispatch();
@@ -42,6 +42,7 @@ function Item({ item }) {
     } else {
       setValue(Number(value + 1));
       dispatch(changeAmount({ id: item.id, amount: value + 1 }));
+      dispatch(setLastItem({ price: item.price, type: "buy" }));
     }
   };
 
@@ -49,6 +50,7 @@ function Item({ item }) {
     if (value > 0) {
       setValue(value - 1);
       dispatch(changeAmount({ id: item.id, amount: value - 1 }));
+      dispatch(setLastItem({ price: item.price, type: "sell" }));
     }
   };
 
